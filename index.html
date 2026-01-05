@@ -1,0 +1,2450 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Only One Fund - 応援で繋がる挑戦のSNS</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    html, body, #app {
+      height: 100%;
+    }
+
+    #app {
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      min-height: 100%;
+      background: white;
+      box-shadow: 0 0 40px rgba(0,0,0,0.1);
+    }
+
+    .welcome-screen {
+      padding: 60px 24px;
+      text-align: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .welcome-logo {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 24px;
+      border-radius: 50%;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      object-fit: cover;
+    }
+
+    .welcome-icon {
+      font-size: 80px;
+      margin-bottom: 24px;
+    }
+
+    .welcome-title {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+
+    .welcome-subtitle {
+      font-size: 18px;
+      margin-bottom: 40px;
+      opacity: 0.9;
+    }
+
+    .welcome-concept {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 32px 24px;
+      margin-bottom: 32px;
+      text-align: left;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .welcome-concept h3 {
+      font-size: 20px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .welcome-concept p {
+      font-size: 16px;
+      line-height: 1.8;
+      opacity: 0.95;
+      margin-bottom: 12px;
+    }
+
+    .welcome-rules {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 32px;
+      text-align: left;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .welcome-rules h4 {
+      font-size: 16px;
+      margin-bottom: 12px;
+      opacity: 0.9;
+    }
+
+    .welcome-rules ul {
+      list-style: none;
+    }
+
+    .welcome-rules li {
+      font-size: 14px;
+      padding: 8px 0;
+      padding-left: 24px;
+      position: relative;
+      opacity: 0.9;
+    }
+
+    .welcome-rules li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+    }
+
+    .language-toggle {
+      margin-bottom: 24px;
+    }
+
+    .language-button {
+      background: rgba(255,255,255,0.2);
+      border: 2px solid rgba(255,255,255,0.3);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .language-button:hover {
+      background: rgba(255,255,255,0.3);
+      border-color: rgba(255,255,255,0.5);
+    }
+
+    .icon-selection {
+      margin-bottom: 24px;
+    }
+
+    .icon-selection-label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 12px;
+      opacity: 0.95;
+    }
+
+    .icon-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .icon-option {
+      width: 100%;
+      aspect-ratio: 1;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.2);
+      font-size: 32px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon-option:hover {
+      background: rgba(255,255,255,0.3);
+      border-color: rgba(255,255,255,0.6);
+      transform: scale(1.1);
+    }
+
+    .icon-option.selected {
+      background: white;
+      border-color: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transform: scale(1.15);
+    }
+
+    .welcome-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 8px;
+      font-size: 16px;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+
+    .welcome-input::placeholder {
+      color: rgba(255,255,255,0.7);
+    }
+
+    .welcome-input:focus {
+      outline: none;
+      border-color: rgba(255,255,255,0.6);
+      background: rgba(255,255,255,0.25);
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.1);
+    }
+
+    .btn-start {
+      background: white;
+      color: #667eea;
+      border: none;
+      padding: 16px 48px;
+      border-radius: 50px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .btn-start:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-title {
+      font-size: 20px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .lang-button-small {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .header-points {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .points-number {
+      font-size: 20px;
+      margin-left: 4px;
+    }
+
+    .nav-tabs {
+      display: flex;
+      background: #f8f9fa;
+      border-bottom: 2px solid #e9ecef;
+      position: sticky;
+      top: 60px;
+      z-index: 99;
+    }
+
+    .nav-tab {
+      flex: 1;
+      padding: 16px;
+      text-align: center;
+      background: none;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      color: #6c757d;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-tab.active {
+      color: #667eea;
+      background: white;
+    }
+
+    .nav-tab.active:after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #667eea;
+    }
+
+    .feed {
+      padding: 20px;
+    }
+
+    .earn-points-card {
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      color: white;
+      box-shadow: 0 4px 16px rgba(40, 167, 69, 0.3);
+    }
+
+    .earn-points-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .earn-points-description {
+      font-size: 14px;
+      line-height: 1.6;
+      opacity: 0.95;
+      margin-bottom: 16px;
+    }
+
+    .btn-watch-ad {
+      width: 100%;
+      background: white;
+      color: #28a745;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-watch-ad:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.5);
+    }
+
+    .btn-watch-ad:disabled {
+      background: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.7);
+      cursor: not-allowed;
+    }
+
+    .category-filter {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .filter-btn {
+      padding: 8px 16px;
+      border-radius: 50px;
+      border: 2px solid #e9ecef;
+      background: white;
+      font-size: 13px;
+      font-weight: 600;
+      color: #495057;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.3s ease;
+    }
+
+    .filter-btn.active {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+
+    .fund-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      border: 2px solid #f8f9fa;
+    }
+
+    .fund-card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      border-color: #667eea;
+    }
+
+    .fund-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .fund-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #212529;
+      margin-bottom: 8px;
+    }
+
+    .completed-badge {
+      font-size: 14px;
+      color: #28a745;
+      font-weight: normal;
+    }
+
+    .category-badge {
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .category-challenge { background: #fff3cd; color: #856404; }
+    .category-creation { background: #d1ecf1; color: #0c5460; }
+    .category-learning { background: #d4edda; color: #155724; }
+    .category-social { background: #f8d7da; color: #721c24; }
+
+    .fund-creator {
+      font-size: 13px;
+      color: #6c757d;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .fund-creator-icon {
+      font-size: 16px;
+    }
+
+    .fund-description {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #495057;
+      margin-bottom: 16px;
+    }
+
+    .progress-section {
+      margin-bottom: 16px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #6c757d;
+      margin-bottom: 8px;
+    }
+
+    .progress-bar-bg {
+      background: #e9ecef;
+      height: 8px;
+      border-radius: 50px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      height: 100%;
+      border-radius: 50px;
+      transition: width 0.5s ease;
+    }
+
+    .supporters-section {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .supporter-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: bold;
+      border: 2px solid white;
+      margin-left: -8px;
+    }
+
+    .supporter-avatar:first-child {
+      margin-left: 0;
+    }
+
+    .supporter-count {
+      font-size: 13px;
+      color: #6c757d;
+      margin-left: 4px;
+    }
+
+    .fund-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-support {
+      flex: 1;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-support:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-support:disabled {
+      background: #e9ecef;
+      color: #adb5bd;
+      cursor: not-allowed;
+    }
+
+    .profile {
+      padding: 20px;
+    }
+
+    .profile-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 16px;
+      padding: 32px 24px;
+      color: white;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      border: 4px solid white;
+    }
+
+    .profile-name {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .profile-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 50px;
+      background: rgba(255,255,255,0.2);
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .profile-stats {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: bold;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      opacity: 0.9;
+      margin-top: 4px;
+    }
+
+    .premium-card {
+      background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      color: #333;
+      box-shadow: 0 4px 16px rgba(255, 215, 0, 0.4);
+      border: 2px solid #ffc107;
+    }
+
+    .premium-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .demo-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.8);
+      color: #666;
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+
+    .premium-benefits {
+      background: rgba(255,255,255,0.5);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .premium-benefit-item {
+      font-size: 14px;
+      padding: 8px 0;
+      padding-left: 24px;
+      position: relative;
+      line-height: 1.6;
+    }
+
+    .premium-benefit-item:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+      color: #28a745;
+    }
+
+    .premium-price {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .price-amount {
+      font-size: 32px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .price-period {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .btn-premium {
+      width: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-premium:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+    }
+
+    .requirement {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #856404;
+      margin-bottom: 24px;
+    }
+
+    .btn-create-fund {
+      width: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 24px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-create-fund:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-create-fund:disabled {
+      background: #e9ecef;
+      color: #adb5bd;
+      cursor: not-allowed;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #212529;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #6c757d;
+    }
+
+    .empty-icon {
+      font-size: 64px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    .empty-text {
+      font-size: 16px;
+    }
+
+    .create-fund-form {
+      padding: 20px;
+    }
+
+    .premium-notice {
+      background: #d4edda;
+      border-left: 4px solid #28a745;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #155724;
+      margin-bottom: 24px;
+    }
+
+    .guideline-box {
+      background: #d1ecf1;
+      border-left: 4px solid #17a2b8;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
+
+    .guideline-title {
+      font-size: 14px;
+      font-weight: bold;
+      color: #0c5460;
+      margin-bottom: 8px;
+    }
+
+    .guideline-text {
+      font-size: 13px;
+      color: #0c5460;
+      line-height: 1.6;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #495057;
+      margin-bottom: 8px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .form-textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .char-count {
+      font-size: 12px;
+      color: #6c757d;
+      text-align: right;
+      margin-top: 4px;
+    }
+
+    .category-select {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .category-option {
+      padding: 16px;
+      border: 2px solid #e9ecef;
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    .category-option:hover {
+      border-color: #667eea;
+      background: #f8f9ff;
+    }
+
+    .category-option.selected {
+      border-color: #667eea;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .category-option-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .category-option-label {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-submit:disabled {
+      background: #e9ecef;
+      color: #adb5bd;
+      cursor: not-allowed;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .ad-icon {
+      font-size: 64px;
+      margin-bottom: 16px;
+    }
+
+    .ad-title {
+      font-size: 22px;
+      font-weight: bold;
+      color: #212529;
+      margin-bottom: 12px;
+    }
+
+    .ad-message {
+      font-size: 15px;
+      color: #6c757d;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .ad-timer {
+      font-size: 48px;
+      font-weight: bold;
+      color: #667eea;
+      margin-bottom: 16px;
+    }
+
+    .ad-progress {
+      background: #e9ecef;
+      height: 8px;
+      border-radius: 50px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .ad-progress-fill {
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      height: 100%;
+      border-radius: 50px;
+      transition: width 0.3s ease;
+    }
+
+    .btn-close-ad {
+      width: 100%;
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-close-ad:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+    }
+
+    .scroll-top-button {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+      z-index: 999;
+      transition: all 0.3s ease;
+    }
+
+    .scroll-top-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #212529;
+      color: white;
+      padding: 16px 24px;
+      border-radius: 50px;
+      font-size: 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      z-index: 1000;
+      animation: slideUpToast 0.3s ease;
+    }
+
+    @keyframes slideUpToast {
+      from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+    }
+
+    .toast.success {
+      background: #28a745;
+    }
+
+    .toast.error {
+      background: #dc3545;
+    }
+
+    @media (max-width: 600px) {
+      .welcome-title {
+        font-size: 24px;
+      }
+      
+      .welcome-subtitle {
+        font-size: 16px;
+      }
+
+      .category-select {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="container">
+      <div class="welcome-screen">
+        <div class="welcome-icon">🎯</div>
+        <h1 class="welcome-title">準備中...</h1>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 翻訳データ
+    const translations = {
+      ja: {
+        appTitle: 'Only One Fund',
+        welcomeTitle: 'Only One Fundへようこそ',
+        welcomeSubtitle: '挑戦と応援でつなぐ新しいSNS',
+        conceptTitle: 'このアプリの思想',
+        conceptText1: 'あなたには10ポイントが与えられます。',
+        conceptText2: '1ポイントは「お金」ではなく、',
+        conceptText2Bold: '「承認」「応援」',
+        conceptText2After: 'の形です。',
+        conceptText3: '誰かの挑戦・学習・創作を応援することで、あなたの影響力が記録され、関係性が可視化されます。',
+        conceptText4: '広告を見ることでポイントを追加獲得できます。',
+        rulesTitle: '基本ルール',
+        rule1: '初期ポイント10pt（広告視聴で増やせる）',
+        rule2: '1ファンドに1回のみ応援可能',
+        rule3: 'ファンド作成には5回以上応援が必要',
+        rule4: '月1回までファンド作成可能（プレミアムで3回）',
+        rule5: '目標は成長や学び・社会貢献につながるもの',
+        selectIcon: 'あなたのアイコンを選んでください',
+        enterName: '表示名を入力してください',
+        namePlaceholder: '例：田中太郎',
+        startButton: '始める',
+        home: 'ホーム',
+        profile: 'プロフィール',
+        create: '作成',
+        remainingPoints: '残り',
+        earnPointsTitle: 'ポイントを獲得しよう',
+        earnPointsDesc: '広告を視聴して1ポイント獲得できます。獲得したポイントでさらに多くの挑戦を応援しましょう！',
+        watchAdButton: '広告を見て+1pt獲得',
+        allCategory: 'すべて',
+        challenge: '挑戦',
+        creation: '創作',
+        learning: '学習',
+        social: '社会',
+        progress: '進捗',
+        supporters: '人が応援',
+        support: '応援する',
+        pointsShort: 'pt',
+        pointsShortage: 'ポイント不足',
+        alreadySupported: '応援済み',
+        myFund: '自分のファンド',
+        by: 'by',
+        completed: '達成済み',
+        receivedSupports: '受けた応援',
+        supportedFunds: '応援した数',
+        premiumTitle: 'プレミアム会員',
+        demoLabel: 'デモ表示',
+        premiumBenefit1: '月3回までファンド作成可能（通常は月1回）',
+        premiumBenefit2: '目標ポイント上限200pt（通常は100pt）',
+        premiumBenefit3: 'プレミアムバッジ表示',
+        premiumBenefit4: '優先的なサポート対応',
+        monthlyPrice: '¥980',
+        perMonth: '/月額',
+        becomePremium: 'プレミアム会員になる',
+        createNewFund: '新しいファンドを作る',
+        requirementTitle: 'ファンド作成の条件',
+        requirementText: '5回以上他の人のファンドを応援する必要があります（現在{count}回応援）',
+        supportedTitle: '応援した挑戦',
+        myFundsTitle: '自分のファンド',
+        noSupported: 'まだ応援していません',
+        noMyFunds: 'まだファンドを作成していません',
+        createFundTitle: '新しいファンドを作る',
+        monthlyLimitReached: '今月はすでにファンドを作成済みです。次回作成は来月まで待つ必要があります。',
+        premiumBenefitNotice: 'プレミアム会員特典: 月{limit}回まで作成可能、目標ポイント最大{max}pt',
+        guidelineTitle: 'ファンド作成のガイドライン',
+        guidelineText: 'あなたの成長や学び、社会への貢献につながる最終目標を記載してください。そこに至るまでのプロセス（必要な物品購入、旅行など）は、目標達成のために必要であれば問題ありません。',
+        categoryLabel: 'カテゴリ',
+        titleLabel: 'タイトル',
+        titlePlaceholder: '例：プログラミングスキルを習得する',
+        descriptionLabel: '目標の説明',
+        descriptionPlaceholder: 'この挑戦の最終目標や意義を説明してください（200文字以内）',
+        targetPointsLabel: '目標ポイント',
+        targetPointsPlaceholder: '例：20',
+        targetPointsRange: '5〜{max}ptの範囲で設定してください',
+        createFundButton: 'ファンドを作成する',
+        backToProfile: 'プロフィールに戻る',
+        cannotCreate: 'ファンドを作成できません',
+        selectCategory: 'カテゴリを選択してください',
+        invalidTargetPoints: '目標ポイントは5〜{max}の範囲で設定してください',
+        fundCreated: 'ファンドを作成しました！',
+        supportSent: '応援を送りました！',
+        pointEarned: '1ポイント獲得しました！',
+        accountCreated: 'アカウントを作成しました！',
+        watchingAd: '広告を視聴中...',
+        pleaseWait: '5秒間お待ちください',
+        pointGained: '+1ポイント獲得！',
+        closeButton: '閉じる',
+        premiumPurchase: 'プレミアム会員登録',
+        demoMessage: 'この機能はデモ表示です。実際の課金機能は実装されていません。',
+        scrollToTop: 'トップに戻る'
+      },
+      en: {
+        appTitle: 'Only One Fund',
+        welcomeTitle: 'Welcome to Only One Fund',
+        welcomeSubtitle: 'A new SNS connecting challenges and support',
+        conceptTitle: 'Our Philosophy',
+        conceptText1: 'You start with 10 points.',
+        conceptText2: '1 point is not "money", but a form of ',
+        conceptText2Bold: '"recognition" and "support"',
+        conceptText2After: '.',
+        conceptText3: 'By supporting others\' challenges, learning, and creations, your influence is recorded and relationships are visualized.',
+        conceptText4: 'You can earn additional points by watching ads.',
+        rulesTitle: 'Basic Rules',
+        rule1: 'Start with 10 points (earn more by watching ads)',
+        rule2: 'Support each fund only once',
+        rule3: 'Need to support 5+ funds to create your own',
+        rule4: 'Create 1 fund per month (3 with Premium)',
+        rule5: 'Goals should contribute to growth, learning, or society',
+        selectIcon: 'Choose your icon',
+        enterName: 'Enter your display name',
+        namePlaceholder: 'e.g., John Doe',
+        startButton: 'Start',
+        home: 'Home',
+        profile: 'Profile',
+        create: 'Create',
+        remainingPoints: 'Remaining',
+        earnPointsTitle: 'Earn More Points',
+        earnPointsDesc: 'Watch an ad to earn 1 point. Use earned points to support more challenges!',
+        watchAdButton: 'Watch ad for +1pt',
+        allCategory: 'All',
+        challenge: 'Challenge',
+        creation: 'Creation',
+        learning: 'Learning',
+        social: 'Social',
+        progress: 'Progress',
+        supporters: 'supporters',
+        support: 'Support',
+        pointsShort: 'pt',
+        pointsShortage: 'Not enough points',
+        alreadySupported: 'Supported',
+        myFund: 'My fund',
+        by: 'by',
+        completed: 'Completed',
+        receivedSupports: 'Supports Received',
+        supportedFunds: 'Funds Supported',
+        premiumTitle: 'Premium Membership',
+        demoLabel: 'Demo',
+        premiumBenefit1: 'Create up to 3 funds per month (normally 1)',
+        premiumBenefit2: 'Target points up to 200pt (normally 100pt)',
+        premiumBenefit3: 'Premium badge display',
+        premiumBenefit4: 'Priority support',
+        monthlyPrice: '$9.80',
+        perMonth: '/month',
+        becomePremium: 'Become Premium',
+        createNewFund: 'Create New Fund',
+        requirementTitle: 'Fund Creation Requirement',
+        requirementText: 'You need to support 5+ funds (currently {count} supported)',
+        supportedTitle: 'Supported Challenges',
+        myFundsTitle: 'My Funds',
+        noSupported: 'No supported funds yet',
+        noMyFunds: 'No funds created yet',
+        createFundTitle: 'Create New Fund',
+        monthlyLimitReached: 'You have already created a fund this month. Please wait until next month.',
+        premiumBenefitNotice: 'Premium benefit: Create up to {limit} times per month, max target {max}pt',
+        guidelineTitle: 'Fund Creation Guidelines',
+        guidelineText: 'Describe your final goal that contributes to your growth, learning, or society. The process to achieve it (purchasing necessary items, travel, etc.) is acceptable if needed for the goal.',
+        categoryLabel: 'Category',
+        titleLabel: 'Title',
+        titlePlaceholder: 'e.g., Learn programming skills',
+        descriptionLabel: 'Goal Description',
+        descriptionPlaceholder: 'Describe the final goal and significance of this challenge (max 200 chars)',
+        targetPointsLabel: 'Target Points',
+        targetPointsPlaceholder: 'e.g., 20',
+        targetPointsRange: 'Set between 5-{max}pt',
+        createFundButton: 'Create Fund',
+        backToProfile: 'Back to Profile',
+        cannotCreate: 'Cannot create fund',
+        selectCategory: 'Please select a category',
+        invalidTargetPoints: 'Target points must be between 5-{max}',
+        fundCreated: 'Fund created!',
+        supportSent: 'Support sent!',
+        pointEarned: 'Earned 1 point!',
+        accountCreated: 'Account created!',
+        watchingAd: 'Watching ad...',
+        pleaseWait: 'Please wait 5 seconds',
+        pointGained: '+1 point gained!',
+        closeButton: 'Close',
+        premiumPurchase: 'Premium Membership Registration',
+        demoMessage: 'This is a demo feature. Actual payment functionality is not implemented.',
+        scrollToTop: 'Back to Top'
+      }
+    };
+
+    // アイコン選択肢
+    const AVAILABLE_ICONS = ['👤', '🐶', '🐱', '🐼', '🦊', '🐻', '🐰', '🦁', '🐸', '🐵', '🦉', '🐧', '🦄', '🌟', '💎'];
+
+    // サンプルデータ
+    const SAMPLE_FUNDS = [
+      {
+        id: 'fund1',
+        creatorId: 'sample_user1',
+        creatorName: '田中太郎',
+        creatorIcon: '🐶',
+        title: 'Webアプリ開発スキルを習得する',
+        category: 'learning',
+        description: 'React、Node.jsを使った実践的なWebアプリ開発を3ヶ月で習得し、ポートフォリオを作成します。',
+        targetPoints: 25,
+        currentPoints: 18,
+        supporters: ['sample_user2', 'sample_user3', 'sample_user4'],
+        createdDate: '2025-12-01T10:00:00Z'
+      },
+      {
+        id: 'fund2',
+        creatorId: 'sample_user2',
+        creatorName: '佐藤花子',
+        creatorIcon: '🐱',
+        title: 'オリジナル絵本を制作・出版する',
+        category: 'creation',
+        description: '子供たちに夢を与える絵本を制作し、電子書籍として出版します。イラストとストーリーを全て制作します。',
+        targetPoints: 30,
+        currentPoints: 22,
+        supporters: ['sample_user1', 'sample_user3', 'sample_user5'],
+        createdDate: '2025-12-02T10:00:00Z'
+      },
+      {
+        id: 'fund3',
+        creatorId: 'sample_user3',
+        creatorName: '鈴木一郎',
+        creatorIcon: '🐼',
+        title: 'マラソン完走に挑戦',
+        category: 'challenge',
+        description: '初めてのフルマラソン完走を目指して6ヶ月間トレーニングします。健康的なライフスタイルの確立が目標です。',
+        targetPoints: 20,
+        currentPoints: 15,
+        supporters: ['sample_user2', 'sample_user4'],
+        createdDate: '2025-12-03T10:00:00Z'
+      },
+      {
+        id: 'fund4',
+        creatorId: 'sample_user4',
+        creatorName: '山田美咲',
+        creatorIcon: '🦊',
+        title: '地域の清掃ボランティア活動を組織化',
+        category: 'social',
+        description: '月1回の地域清掃活動を継続的に実施し、コミュニティの美化と住民の絆を深めます。',
+        targetPoints: 15,
+        currentPoints: 12,
+        supporters: ['sample_user1', 'sample_user5'],
+        createdDate: '2025-12-04T10:00:00Z'
+      },
+      {
+        id: 'fund5',
+        creatorId: 'sample_user5',
+        creatorName: '高橋健太',
+        creatorIcon: '🐻',
+        title: 'ピアノ演奏技術の向上とオンライン配信',
+        category: 'creation',
+        description: 'クラシックピアノの技術を磨き、月2回のオンライン演奏会を開催して音楽を届けます。',
+        targetPoints: 25,
+        currentPoints: 8,
+        supporters: ['sample_user3'],
+        createdDate: '2025-12-05T10:00:00Z'
+      },
+      {
+        id: 'fund6',
+        creatorId: 'sample_user6',
+        creatorName: '伊藤麻衣',
+        creatorIcon: '🐰',
+        title: 'データサイエンスの基礎を学ぶ',
+        category: 'learning',
+        description: 'Python、統計学、機械学習の基礎を習得し、データ分析のスキルを身につけます。',
+        targetPoints: 30,
+        currentPoints: 25,
+        supporters: ['sample_user1', 'sample_user2', 'sample_user7'],
+        createdDate: '2025-12-06T10:00:00Z'
+      },
+      {
+        id: 'fund7',
+        creatorId: 'sample_user7',
+        creatorName: '渡辺優介',
+        creatorIcon: '🦁',
+        title: '独自のモバイルアプリをリリース',
+        category: 'challenge',
+        description: '生活を便利にするモバイルアプリを開発し、App StoreとGoogle Playでリリースします。',
+        targetPoints: 40,
+        currentPoints: 30,
+        supporters: ['sample_user2', 'sample_user3', 'sample_user4', 'sample_user5'],
+        createdDate: '2025-12-07T10:00:00Z'
+      },
+      {
+        id: 'fund8',
+        creatorId: 'sample_user8',
+        creatorName: '中村さくら',
+        creatorIcon: '🐸',
+        title: '地域の子供たちに無料プログラミング教室',
+        category: 'social',
+        description: '月2回、地域の子供たちにプログラミングの楽しさを教える無料教室を開催します。',
+        targetPoints: 20,
+        currentPoints: 14,
+        supporters: ['sample_user1', 'sample_user6', 'sample_user7'],
+        createdDate: '2025-12-08T10:00:00Z'
+      },
+      {
+        id: 'fund9',
+        creatorId: 'sample_user9',
+        creatorName: '小林大輔',
+        creatorIcon: '🐵',
+        title: '英語でのプレゼンテーション力向上',
+        category: 'learning',
+        description: 'TOEIC900点突破と、国際会議での英語プレゼンテーション成功を目指します。',
+        targetPoints: 25,
+        currentPoints: 19,
+        supporters: ['sample_user3', 'sample_user4', 'sample_user8'],
+        createdDate: '2025-12-09T10:00:00Z'
+      },
+      {
+        id: 'fund10',
+        creatorId: 'sample_user10',
+        creatorName: '加藤ゆい',
+        creatorIcon: '🦉',
+        title: '写真集制作プロジェクト',
+        category: 'creation',
+        description: '日本各地の風景を撮影し、四季の美しさを伝える写真集を制作します。',
+        targetPoints: 35,
+        currentPoints: 28,
+        supporters: ['sample_user1', 'sample_user5', 'sample_user6', 'sample_user9'],
+        createdDate: '2025-12-10T10:00:00Z'
+      },
+      {
+        id: 'fund11',
+        creatorId: 'sample_user11',
+        creatorName: '松本翔太',
+        creatorIcon: '🐧',
+        title: 'YouTubeで教育コンテンツ配信',
+        category: 'challenge',
+        description: '数学と物理を分かりやすく解説する教育YouTubeチャンネルを立ち上げ、100本の動画投稿を目指します。',
+        targetPoints: 30,
+        currentPoints: 12,
+        supporters: ['sample_user2', 'sample_user7'],
+        createdDate: '2025-12-11T10:00:00Z'
+      },
+      {
+        id: 'fund12',
+        creatorId: 'sample_user12',
+        creatorName: '井上愛',
+        creatorIcon: '🦄',
+        title: '高齢者向けスマホ教室の開催',
+        category: 'social',
+        description: '地域の高齢者の方々にスマートフォンの使い方を丁寧に教える教室を毎週開催します。',
+        targetPoints: 18,
+        currentPoints: 16,
+        supporters: ['sample_user3', 'sample_user8', 'sample_user10'],
+        createdDate: '2025-12-12T10:00:00Z'
+      },
+      {
+        id: 'fund13',
+        creatorId: 'sample_user13',
+        creatorName: '木村龍之介',
+        creatorIcon: '🌟',
+        title: '3Dモデリングとアニメーション制作',
+        category: 'creation',
+        description: 'Blenderを使った3DCG制作技術を習得し、オリジナルの短編アニメーションを制作します。',
+        targetPoints: 28,
+        currentPoints: 20,
+        supporters: ['sample_user4', 'sample_user5', 'sample_user11'],
+        createdDate: '2025-12-13T10:00:00Z'
+      },
+      {
+        id: 'fund14',
+        creatorId: 'sample_user14',
+        creatorName: '林美穂',
+        creatorIcon: '💎',
+        title: 'AI・機械学習の実践プロジェクト',
+        category: 'learning',
+        description: 'TensorFlowを使った画像認識AIを開発し、実用的なアプリケーションを作成します。',
+        targetPoints: 35,
+        currentPoints: 27,
+        supporters: ['sample_user1', 'sample_user6', 'sample_user9', 'sample_user12'],
+        createdDate: '2025-12-14T10:00:00Z'
+      },
+      {
+        id: 'fund15',
+        creatorId: 'sample_user15',
+        creatorName: '森田健',
+        creatorIcon: '🐶',
+        title: 'トライアスロン完走への挑戦',
+        category: 'challenge',
+        description: '水泳・自転車・ランニングの3種目に挑戦し、1年後のトライアスロン大会完走を目指します。',
+        targetPoints: 25,
+        currentPoints: 10,
+        supporters: ['sample_user7', 'sample_user13'],
+        createdDate: '2025-12-15T10:00:00Z'
+      }
+    ];
+
+    // グローバル状態
+    let currentUser = null;
+    let currentView = 'feed';
+    let currentFilter = 'all';
+    let isWatchingAd = false;
+    let funds = [];
+    let language = 'ja';
+    let showScrollTop = false;
+
+    // LocalStorageキー
+    const STORAGE_KEYS = {
+      USER: 'onlyOneFundUser',
+      FUNDS: 'onlyOneFundFunds',
+      LANGUAGE: 'onlyOneFundLanguage'
+    };
+
+    // 初期化
+    function init() {
+      loadLanguage();
+      loadUser();
+      loadFunds();
+      render();
+      setupScrollListener();
+    }
+
+    // LocalStorageから言語設定をロード
+    function loadLanguage() {
+      const savedLang = localStorage.getItem(STORAGE_KEYS.LANGUAGE);
+      if (savedLang) {
+        language = savedLang;
+      }
+    }
+
+    // LocalStorageから言語設定を保存
+    function saveLanguage() {
+      localStorage.setItem(STORAGE_KEYS.LANGUAGE, language);
+    }
+
+    // LocalStorageからユーザーをロード
+    function loadUser() {
+      const savedUser = localStorage.getItem(STORAGE_KEYS.USER);
+      if (savedUser) {
+        try {
+          currentUser = JSON.parse(savedUser);
+        } catch (e) {
+          console.error('Failed to load user:', e);
+        }
+      }
+    }
+
+    // LocalStorageにユーザーを保存
+    function saveUser() {
+      localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(currentUser));
+    }
+
+    // LocalStorageからファンドをロード
+    function loadFunds() {
+      const savedFunds = localStorage.getItem(STORAGE_KEYS.FUNDS);
+      if (savedFunds) {
+        try {
+          funds = JSON.parse(savedFunds);
+        } catch (e) {
+          console.error('Failed to load funds:', e);
+          funds = [...SAMPLE_FUNDS];
+          saveFunds();
+        }
+      } else {
+        funds = [...SAMPLE_FUNDS];
+        saveFunds();
+      }
+    }
+
+    // LocalStorageにファンドを保存
+    function saveFunds() {
+      localStorage.setItem(STORAGE_KEYS.FUNDS, JSON.stringify(funds));
+    }
+
+    // スクロールリスナーの設定
+    function setupScrollListener() {
+      const app = document.getElementById('app');
+      app.addEventListener('scroll', function() {
+        showScrollTop = app.scrollTop > 300;
+        const scrollBtn = document.getElementById('scrollTopBtn');
+        if (scrollBtn) {
+          scrollBtn.style.display = showScrollTop ? 'block' : 'none';
+        }
+      });
+    }
+
+    // トップにスクロール
+    function scrollToTop() {
+      const app = document.getElementById('app');
+      app.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 翻訳取得
+    function t(key) {
+      return translations[language][key] || key;
+    }
+
+    // バッジ取得
+    function getBadge(supportCount) {
+      if (supportCount >= 10) return { name: 'Mentor', icon: '🌟' };
+      if (supportCount >= 5) return { name: 'Backer', icon: '⭐' };
+      return { name: 'Supporter', icon: '✨' };
+    }
+
+    // 応援可能かチェック
+    function canSupport(fund) {
+      if (!currentUser || !fund) return false;
+      return (
+        currentUser.points >= 1 &&
+        !currentUser.supportedFunds.includes(fund.id) &&
+        currentUser.id !== fund.creatorId
+      );
+    }
+
+    // ファンド作成可能かチェック
+    function canCreateFund() {
+      if (!currentUser) return false;
+      return currentUser.supportedFunds.length >= 5;
+    }
+
+    // 今月ファンド作成可能かチェック
+    function canCreateThisMonth() {
+      if (!currentUser) return false;
+      if (!currentUser.lastFundCreatedAt) return true;
+
+      const lastCreated = new Date(currentUser.lastFundCreatedAt);
+      const now = new Date();
+      const monthsDiff =
+        (now.getFullYear() - lastCreated.getFullYear()) * 12 +
+        (now.getMonth() - lastCreated.getMonth());
+
+      const monthlyLimit = currentUser.isPremium ? 3 : 1;
+      
+      if (monthsDiff >= 1) return true;
+
+      const fundsThisMonth = funds.filter(f => {
+        if (f.creatorId !== currentUser.id) return false;
+        const fundDate = new Date(f.createdDate);
+        return fundDate.getMonth() === now.getMonth() && 
+               fundDate.getFullYear() === now.getFullYear();
+      }).length;
+
+      return fundsThisMonth < monthlyLimit;
+    }
+
+    // 最大目標ポイント取得
+    function getMaxTargetPoints() {
+      return currentUser?.isPremium ? 200 : 100;
+    }
+
+    // アカウント作成
+    function createAccount(displayName, icon) {
+      currentUser = {
+        id: 'user_' + Date.now(),
+        displayName: displayName,
+        icon: icon,
+        points: 10,
+        supportedFunds: [],
+        receivedSupports: 0,
+        isPremium: false,
+        lastFundCreatedAt: null,
+        language: language
+      };
+      saveUser();
+      showToast(t('accountCreated'), 'success');
+      render();
+    }
+
+    // 応援
+    function supportFund(fund) {
+      if (!canSupport(fund)) return;
+
+      // ユーザーのポイント減少と応援リストに追加
+      currentUser.points -= 1;
+      currentUser.supportedFunds.push(fund.id);
+      saveUser();
+
+      // ファンドのポイント増加とサポーター追加
+      const fundIndex = funds.findIndex(f => f.id === fund.id);
+      if (fundIndex !== -1) {
+        funds[fundIndex].currentPoints += 1;
+        funds[fundIndex].supporters.push(currentUser.id);
+        
+        // 達成判定
+        if (funds[fundIndex].currentPoints >= funds[fundIndex].targetPoints) {
+          funds[fundIndex].isCompleted = true;
+        }
+        
+        saveFunds();
+
+        // 作成者の受けた応援をカウント（サンプルユーザー以外）
+        if (!fund.creatorId.startsWith('sample_user')) {
+          // 実際のユーザーの場合のみカウント更新
+          // (このデモでは簡略化のため、localStorage経由での他ユーザーデータ更新は省略)
+        } else if (fund.creatorId === currentUser.id) {
+          currentUser.receivedSupports = (currentUser.receivedSupports || 0) + 1;
+          saveUser();
+        }
+      }
+
+      showToast(t('supportSent'), 'success');
+      render();
+    }
+
+    // 広告視聴
+    function watchAd() {
+      if (isWatchingAd || !currentUser) return;
+      isWatchingAd = true;
+      
+      // モーダル表示
+      showAdModal();
+    }
+
+    function showAdModal() {
+      const modalHtml = `
+        <div class="modal-overlay" id="adModal">
+          <div class="modal">
+            <div class="ad-icon">📺</div>
+            <div class="ad-title" id="adTitle">${t('watchingAd')}</div>
+            <div class="ad-message" id="adMessage">${t('pleaseWait')}</div>
+            <div class="ad-timer" id="adTimer">5</div>
+            <div class="ad-progress">
+              <div class="ad-progress-fill" id="adProgress" style="width: 0%"></div>
+            </div>
+            <div id="adComplete" style="display: none;">
+              <div class="ad-icon">🎉</div>
+              <div class="ad-title">${t('pointGained')}</div>
+              <button class="btn-close-ad" onclick="closeAdModal()">${t('closeButton')}</button>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      
+      let timeLeft = 5;
+      const countdown = setInterval(() => {
+        timeLeft--;
+        const timerEl = document.getElementById('adTimer');
+        const progressEl = document.getElementById('adProgress');
+        
+        if (timerEl) timerEl.textContent = timeLeft;
+        if (progressEl) progressEl.style.width = ((5 - timeLeft) / 5 * 100) + '%';
+        
+        if (timeLeft <= 0) {
+          clearInterval(countdown);
+          document.getElementById('adTitle').style.display = 'none';
+          document.getElementById('adMessage').style.display = 'none';
+          document.getElementById('adTimer').style.display = 'none';
+          document.getElementById('adProgress').parentElement.style.display = 'none';
+          document.getElementById('adComplete').style.display = 'block';
+        }
+      }, 1000);
+    }
+
+    window.closeAdModal = function() {
+      const modal = document.getElementById('adModal');
+      if (modal) {
+        modal.remove();
+      }
+      isWatchingAd = false;
+      
+      currentUser.points += 1;
+      saveUser();
+      showToast(t('pointEarned'), 'success');
+      render();
+    };
+
+    // プレミアムモーダル表示
+    function showPremiumModal() {
+      const modalHtml = `
+        <div class="modal-overlay" id="premiumModal">
+          <div class="modal">
+            <div class="ad-icon">💳</div>
+            <div class="ad-title">${t('premiumPurchase')}</div>
+            <div class="ad-message">${t('demoMessage')}</div>
+            <button class="btn-close-ad" onclick="closePremiumModal()">${t('closeButton')}</button>
+          </div>
+        </div>
+      `;
+      
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+    }
+
+    window.closePremiumModal = function() {
+      const modal = document.getElementById('premiumModal');
+      if (modal) {
+        modal.remove();
+      }
+    };
+
+    // ファンド作成
+    function createFund(fundData) {
+      if (!canCreateFund() || !currentUser) return;
+      if (!canCreateThisMonth()) {
+        showToast(t('monthlyLimitReached'), 'error');
+        return;
+      }
+
+      const newFund = {
+        id: 'fund_' + Date.now(),
+        creatorId: currentUser.id,
+        creatorName: currentUser.displayName,
+        creatorIcon: currentUser.icon,
+        title: fundData.title,
+        category: fundData.category,
+        description: fundData.description,
+        targetPoints: fundData.targetPoints,
+        currentPoints: 0,
+        supporters: [],
+        isCompleted: false,
+        createdDate: new Date().toISOString()
+      };
+
+      funds.unshift(newFund);
+      saveFunds();
+
+      currentUser.lastFundCreatedAt = new Date().toISOString();
+      saveUser();
+
+      showToast(t('fundCreated'), 'success');
+      currentView = 'feed';
+      render();
+    }
+
+    // トースト表示
+    function showToast(message, type = 'info') {
+      const existingToast = document.querySelector('.toast');
+      if (existingToast) {
+        existingToast.remove();
+      }
+
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+
+    // レンダリング
+    function render() {
+      const app = document.getElementById('app');
+
+      if (!currentUser) {
+        app.innerHTML = renderWelcomeScreen();
+        attachWelcomeListeners();
+        return;
+      }
+
+      app.innerHTML = renderMainApp();
+      attachMainListeners();
+    }
+
+    // ウェルカム画面レンダリング
+    function renderWelcomeScreen() {
+      return `
+        <div class="welcome-screen">
+          <div class="welcome-icon">🎯</div>
+          <h1 class="welcome-title">${t('welcomeTitle')}</h1>
+          <p class="welcome-subtitle">${t('welcomeSubtitle')}</p>
+          
+          <div class="welcome-concept">
+            <h3>💡 ${t('conceptTitle')}</h3>
+            <p>${t('conceptText1')}</p>
+            <p>${t('conceptText2')}<strong>${t('conceptText2Bold')}</strong>${t('conceptText2After')}</p>
+            <p>${t('conceptText3')}</p>
+            <p>${t('conceptText4')}</p>
+          </div>
+
+          <div class="welcome-rules">
+            <h4>📌 ${t('rulesTitle')}</h4>
+            <ul>
+              <li>${t('rule1')}</li>
+              <li>${t('rule2')}</li>
+              <li>${t('rule3')}</li>
+              <li>${t('rule4')}</li>
+              <li>${t('rule5')}</li>
+            </ul>
+          </div>
+
+          <div class="language-toggle">
+            <button class="language-button" onclick="toggleLanguage()">
+              ${language === 'ja' ? '🇬🇧 English' : '🇯🇵 日本語'}
+            </button>
+          </div>
+
+          <div style="max-width: 400px; width: 100%;">
+            <form id="accountForm" onsubmit="handleAccountCreate(event)">
+              <div class="icon-selection">
+                <label class="icon-selection-label">${t('selectIcon')}</label>
+                <div class="icon-grid" id="iconGrid">
+                  ${AVAILABLE_ICONS.map((icon, idx) => `
+                    <div class="icon-option ${idx === 0 ? 'selected' : ''}" data-icon="${icon}">
+                      ${icon}
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+
+              <div style="margin-bottom: 16px;">
+                <label style="display: block; font-size: 14px; margin-bottom: 8px; opacity: 0.95;">
+                  ${t('enterName')}
+                </label>
+                <input 
+                  type="text" 
+                  id="displayName" 
+                  class="welcome-input"
+                  placeholder="${t('namePlaceholder')}"
+                  required
+                  maxlength="20"
+                >
+              </div>
+              <button type="submit" class="btn-start">
+                ${t('startButton')}
+              </button>
+            </form>
+          </div>
+        </div>
+      `;
+    }
+
+    // メインアプリレンダリング
+    function renderMainApp() {
+      const badge = getBadge(currentUser.supportedFunds.length);
+      
+      return `
+        <div class="container">
+          ${renderHeader(badge)}
+          ${renderNavigation()}
+          ${renderContent()}
+          ${showScrollTop ? `<button id="scrollTopBtn" class="scroll-top-button" onclick="scrollToTop()">↑<br>${t('scrollToTop')}</button>` : ''}
+        </div>
+      `;
+    }
+
+    // ヘッダーレンダリング
+    function renderHeader(badge) {
+      return `
+        <div class="header">
+          <div class="header-title">
+            ${t('appTitle')}
+          </div>
+          <div class="header-right">
+            <button class="lang-button-small" onclick="toggleLanguage()">
+              ${language === 'ja' ? 'EN' : 'JA'}
+            </button>
+            <div class="header-points">
+              ${badge.icon} ${t('remainingPoints')}
+              <span class="points-number">${currentUser.points}</span>
+              ${t('pointsShort')}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ナビゲーションレンダリング
+    function renderNavigation() {
+      return `
+        <div class="nav-tabs">
+          <button class="nav-tab ${currentView === 'feed' ? 'active' : ''}" onclick="changeView('feed')">
+            🏠 ${t('home')}
+          </button>
+          <button class="nav-tab ${currentView === 'profile' ? 'active' : ''}" onclick="changeView('profile')">
+            👤 ${t('profile')}
+          </button>
+          <button class="nav-tab ${currentView === 'create' ? 'active' : ''}" onclick="changeView('create')">
+            ➕ ${t('create')}
+          </button>
+        </div>
+      `;
+    }
+
+    // コンテンツレンダリング
+    function renderContent() {
+      switch (currentView) {
+        case 'feed':
+          return renderFeed();
+        case 'profile':
+          return renderProfile();
+        case 'create':
+          return renderCreateFund();
+        default:
+          return renderFeed();
+      }
+    }
+
+    // フィードレンダリング
+    function renderFeed() {
+      // 応援済みファンドを除外
+      const displayFunds = funds.filter(f => !currentUser.supportedFunds.includes(f.id));
+      const filteredFunds = currentFilter === 'all' ? displayFunds : displayFunds.filter(f => f.category === currentFilter);
+
+      return `
+        <div class="feed">
+          ${renderEarnPointsCard()}
+          
+          <div class="category-filter">
+            <button class="filter-btn ${currentFilter === 'all' ? 'active' : ''}" onclick="setFilter('all')">
+              ${t('allCategory')}
+            </button>
+            <button class="filter-btn ${currentFilter === 'challenge' ? 'active' : ''}" onclick="setFilter('challenge')">
+              🎯 ${t('challenge')}
+            </button>
+            <button class="filter-btn ${currentFilter === 'creation' ? 'active' : ''}" onclick="setFilter('creation')">
+              🎨 ${t('creation')}
+            </button>
+            <button class="filter-btn ${currentFilter === 'learning' ? 'active' : ''}" onclick="setFilter('learning')">
+              📚 ${t('learning')}
+            </button>
+            <button class="filter-btn ${currentFilter === 'social' ? 'active' : ''}" onclick="setFilter('social')">
+              🌍 ${t('social')}
+            </button>
+          </div>
+
+          ${filteredFunds.map(fund => renderFundCard(fund)).join('')}
+        </div>
+      `;
+    }
+
+    // ポイント獲得カードレンダリング
+    function renderEarnPointsCard() {
+      return `
+        <div class="earn-points-card">
+          <div class="earn-points-title">💰 ${t('earnPointsTitle')}</div>
+          <div class="earn-points-description">${t('earnPointsDesc')}</div>
+          <button class="btn-watch-ad" onclick="watchAd()" ${isWatchingAd ? 'disabled' : ''}>
+            📺 ${t('watchAdButton')}
+          </button>
+        </div>
+      `;
+    }
+
+    // ファンドカードレンダリング
+    function renderFundCard(fund) {
+      const progress = (fund.currentPoints / fund.targetPoints) * 100;
+      const canSupportThis = canSupport(fund);
+      const isOwn = currentUser.id === fund.creatorId;
+
+      const categoryIcons = {
+        challenge: '🎯',
+        creation: '🎨',
+        learning: '📚',
+        social: '🌍'
+      };
+
+      return `
+        <div class="fund-card">
+          <div class="fund-header">
+            <div style="flex: 1;">
+              <h3 class="fund-title">
+                ${fund.title}
+                ${fund.isCompleted ? `<span class="completed-badge"> ✅ ${t('completed')}</span>` : ''}
+              </h3>
+              <div class="fund-creator">
+                <span class="fund-creator-icon">${fund.creatorIcon}</span>
+                <span>${t('by')} ${fund.creatorName}</span>
+              </div>
+            </div>
+            <span class="category-badge category-${fund.category}">
+              ${categoryIcons[fund.category]} ${t(fund.category)}
+            </span>
+          </div>
+
+          <p class="fund-description">${fund.description}</p>
+
+          <div class="progress-section">
+            <div class="progress-label">
+              <span>${t('progress')}</span>
+              <span><strong>${fund.currentPoints}</strong> / ${fund.targetPoints}${t('pointsShort')}</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" style="width: ${Math.min(progress, 100)}%"></div>
+            </div>
+          </div>
+
+          ${fund.supporters && fund.supporters.length > 0 ? `
+            <div class="supporters-section">
+              ${fund.supporters.slice(0, 5).map(() => '<div class="supporter-avatar">👤</div>').join('')}
+              ${fund.supporters.length > 5 ? `<span class="supporter-count">+${fund.supporters.length - 5}</span>` : ''}
+              <span class="supporter-count">${fund.supporters.length}${t('supporters')}</span>
+            </div>
+          ` : ''}
+
+          <div class="fund-actions">
+            ${!isOwn ? `
+              <button 
+                class="btn-support" 
+                onclick="handleSupportClick('${fund.id}')"
+                ${!canSupportThis ? 'disabled' : ''}
+              >
+                ${canSupportThis ? `❤️ 1${t('pointsShort')}${t('support')}` : 
+                  fund.isCompleted ? `✅ ${t('completed')}` :
+                  currentUser.points < 1 ? `💔 ${t('pointsShortage')}` : 
+                  `✅ ${t('alreadySupported')}`}
+              </button>
+            ` : `
+              <button class="btn-support" disabled>
+                👤 ${t('myFund')}
+              </button>
+            `}
+          </div>
+        </div>
+      `;
+    }
+
+    // プロフィールレンダリング
+    function renderProfile() {
+      const supportedFunds = funds.filter(f => currentUser.supportedFunds.includes(f.id));
+      const myFunds = funds.filter(f => f.creatorId === currentUser.id);
+      const badge = getBadge(currentUser.supportedFunds.length);
+
+      // 受けた応援の計算
+      let receivedSupports = 0;
+      myFunds.forEach(fund => {
+        receivedSupports += fund.supporters.filter(sid => !sid.startsWith('sample_user')).length;
+      });
+
+      return `
+        <div class="profile">
+          <div class="profile-header">
+            <div class="profile-avatar">${currentUser.icon}</div>
+            <div class="profile-name">${currentUser.displayName}</div>
+            <div class="profile-badge">${badge.icon} ${badge.name} ${currentUser.isPremium ? '👑' : ''}</div>
+            
+            <div class="profile-stats">
+              <div class="stat-item">
+                <span class="stat-value">${currentUser.points}</span>
+                <span class="stat-label">${t('remainingPoints')}</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">${currentUser.supportedFunds.length}</span>
+                <span class="stat-label">${t('supportedFunds')}</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">${receivedSupports}</span>
+                <span class="stat-label">${t('receivedSupports')}</span>
+              </div>
+            </div>
+          </div>
+
+          ${!currentUser.isPremium ? renderPremiumCard() : ''}
+
+          ${renderEarnPointsCard()}
+
+          ${!canCreateFund() ? `
+            <div class="requirement">
+              <strong>⚠️ ${t('requirementTitle')}</strong><br><br>
+              ${t('requirementText').replace('{count}', currentUser.supportedFunds.length)}
+            </div>
+          ` : ''}
+
+          <button 
+            class="btn-create-fund" 
+            onclick="changeView('create')"
+            ${!canCreateFund() ? 'disabled' : ''}
+          >
+            ➕ ${t('createNewFund')}
+          </button>
+
+          <h2 class="section-title">❤️ ${t('supportedTitle')}</h2>
+          ${supportedFunds.length === 0 ? `
+            <div class="empty-state">
+              <div class="empty-icon">💭</div>
+              <p class="empty-text">${t('noSupported')}</p>
+            </div>
+          ` : supportedFunds.map(fund => renderFundCard(fund)).join('')}
+
+          <h2 class="section-title" style="margin-top: 32px;">🎯 ${t('myFundsTitle')}</h2>
+          ${myFunds.length === 0 ? `
+            <div class="empty-state">
+              <div class="empty-icon">📝</div>
+              <p class="empty-text">${t('noMyFunds')}</p>
+            </div>
+          ` : myFunds.map(fund => renderFundCard(fund)).join('')}
+        </div>
+      `;
+    }
+
+    // プレミアムカードレンダリング
+    function renderPremiumCard() {
+      return `
+        <div class="premium-card">
+          <div class="premium-title">
+            👑 ${t('premiumTitle')}
+            <span class="demo-badge">${t('demoLabel')}</span>
+          </div>
+          <div class="premium-benefits">
+            <div class="premium-benefit-item">${t('premiumBenefit1')}</div>
+            <div class="premium-benefit-item">${t('premiumBenefit2')}</div>
+            <div class="premium-benefit-item">${t('premiumBenefit3')}</div>
+            <div class="premium-benefit-item">${t('premiumBenefit4')}</div>
+          </div>
+          <div class="premium-price">
+            <div class="price-amount">${t('monthlyPrice')}</div>
+            <div class="price-period">${t('perMonth')}</div>
+          </div>
+          <button class="btn-premium" onclick="showPremiumModal()">
+            💳 ${t('becomePremium')}
+          </button>
+        </div>
+      `;
+    }
+
+    // ファンド作成レンダリング
+    function renderCreateFund() {
+      const maxPoints = getMaxTargetPoints();
+
+      if (!canCreateFund()) {
+        return `
+          <div class="create-fund-form">
+            <div class="requirement">
+              <strong>⚠️ ${t('cannotCreate')}</strong><br><br>
+              ${t('requirementText').replace('{count}', currentUser.supportedFunds.length)}
+            </div>
+            <button class="btn-submit" onclick="changeView('profile')">
+              ${t('backToProfile')}
+            </button>
+          </div>
+        `;
+      }
+
+      if (!canCreateThisMonth()) {
+        return `
+          <div class="create-fund-form">
+            <div class="requirement">
+              <strong>⚠️ ${t('cannotCreate')}</strong><br><br>
+              ${t('monthlyLimitReached')}
+            </div>
+            <button class="btn-submit" onclick="changeView('profile')">
+              ${t('backToProfile')}
+            </button>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="create-fund-form">
+          <h2 class="section-title">✨ ${t('createFundTitle')}</h2>
+
+          ${currentUser.isPremium ? `
+            <div class="premium-notice">
+              👑 ${t('premiumBenefitNotice').replace('{limit}', '3').replace('{max}', '200')}
+            </div>
+          ` : ''}
+
+          <div class="guideline-box">
+            <div class="guideline-title">💡 ${t('guidelineTitle')}</div>
+            <div class="guideline-text">${t('guidelineText')}</div>
+          </div>
+
+          <form id="createFundForm" onsubmit="handleCreateFund(event)">
+            <div class="form-group">
+              <label class="form-label">${t('categoryLabel')} *</label>
+              <div class="category-select" id="categorySelect">
+                <div class="category-option" data-category="challenge">
+                  <div class="category-option-icon">🎯</div>
+                  <div class="category-option-label">${t('challenge')}</div>
+                </div>
+                <div class="category-option" data-category="creation">
+                  <div class="category-option-icon">🎨</div>
+                  <div class="category-option-label">${t('creation')}</div>
+                </div>
+                <div class="category-option" data-category="learning">
+                  <div class="category-option-icon">📚</div>
+                  <div class="category-option-label">${t('learning')}</div>
+                </div>
+                <div class="category-option" data-category="social">
+                  <div class="category-option-icon">🌍</div>
+                  <div class="category-option-label">${t('social')}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">${t('titleLabel')} *</label>
+              <input 
+                type="text" 
+                id="fundTitle" 
+                class="form-input" 
+                placeholder="${t('titlePlaceholder')}" 
+                required
+                maxlength="50"
+              >
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">${t('descriptionLabel')} *</label>
+              <textarea 
+                id="fundDescription" 
+                class="form-input form-textarea" 
+                placeholder="${t('descriptionPlaceholder')}" 
+                required
+                maxlength="200"
+              ></textarea>
+              <div class="char-count" id="charCount">0 / 200</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">${t('targetPointsLabel')} *</label>
+              <input 
+                type="number" 
+                id="fundTargetPoints" 
+                class="form-input" 
+                placeholder="${t('targetPointsPlaceholder')}" 
+                required
+                min="5"
+                max="${maxPoints}"
+              >
+              <div class="char-count">${t('targetPointsRange').replace('{max}', maxPoints)}</div>
+            </div>
+
+            <button type="submit" class="btn-submit">
+              🚀 ${t('createFundButton')}
+            </button>
+          </form>
+        </div>
+      `;
+    }
+
+    // ウェルカム画面のイベントリスナー
+    function attachWelcomeListeners() {
+      const iconOptions = document.querySelectorAll('.icon-option');
+      let selectedIcon = AVAILABLE_ICONS[0];
+
+      iconOptions.forEach(option => {
+        option.addEventListener('click', function() {
+          iconOptions.forEach(opt => opt.classList.remove('selected'));
+          this.classList.add('selected');
+          selectedIcon = this.dataset.icon;
+        });
+      });
+
+      window.handleAccountCreate = function(e) {
+        e.preventDefault();
+        const displayName = document.getElementById('displayName').value.trim();
+        if (displayName && selectedIcon) {
+          createAccount(displayName, selectedIcon);
+        }
+      };
+
+      window.toggleLanguage = function() {
+        language = language === 'ja' ? 'en' : 'ja';
+        saveLanguage();
+        render();
+      };
+    }
+
+    // メインアプリのイベントリスナー
+    function attachMainListeners() {
+      window.changeView = function(view) {
+        currentView = view;
+        render();
+
+        // カテゴリ選択のイベントリスナーを設定
+        if (view === 'create') {
+          setTimeout(() => {
+            let selectedCategory = '';
+            const categoryOptions = document.querySelectorAll('.category-option');
+            categoryOptions.forEach(option => {
+              option.addEventListener('click', function() {
+                categoryOptions.forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedCategory = this.dataset.category;
+              });
+            });
+
+            const descTextarea = document.getElementById('fundDescription');
+            const charCount = document.getElementById('charCount');
+            if (descTextarea && charCount) {
+              descTextarea.addEventListener('input', function() {
+                charCount.textContent = `${this.value.length} / 200`;
+              });
+            }
+
+            window.handleCreateFund = function(e) {
+              e.preventDefault();
+              
+              if (!selectedCategory) {
+                showToast(t('selectCategory'), 'error');
+                return;
+              }
+
+              const title = document.getElementById('fundTitle').value.trim();
+              const description = document.getElementById('fundDescription').value.trim();
+              const targetPoints = parseInt(document.getElementById('fundTargetPoints').value);
+
+              const maxPoints = getMaxTargetPoints();
+              if (targetPoints < 5 || targetPoints > maxPoints) {
+                showToast(t('invalidTargetPoints').replace('{max}', maxPoints), 'error');
+                return;
+              }
+
+              createFund({
+                title,
+                category: selectedCategory,
+                description,
+                targetPoints
+              });
+            };
+          }, 0);
+        }
+      };
+
+      window.setFilter = function(filter) {
+        currentFilter = filter;
+        render();
+      };
+
+      window.handleSupportClick = function(fundId) {
+        const fund = funds.find(f => f.id === fundId);
+        if (fund) {
+          supportFund(fund);
+        }
+      };
+
+      window.toggleLanguage = function() {
+        language = language === 'ja' ? 'en' : 'ja';
+        saveLanguage();
+        if (currentUser) {
+          currentUser.language = language;
+          saveUser();
+        }
+        render();
+      };
+    }
+
+    // 初期化実行
+    init();
+  </script>
+</body>
+</html>
